@@ -1,6 +1,6 @@
-ARG VARNISH_VERSION=latest
+ARG DOCKER_TAG=latest
 
-FROM varnish:${VARNISH_VERSION}
+FROM varnish:${DOCKER_TAG}
 
 RUN apt-get update && apt-get install -y prometheus-varnish-exporter &&\
  rm -rf /var/lib/apt/lists/*

@@ -1,0 +1,22 @@
+#/bin/bash
+
+if [ $# -lt 1 ]
+  then
+    echo "$0 <varnish-version>"
+    echo "Example: $0 7.2.1"
+    exit 1
+fi
+
+varnishVersion=$1
+
+docker buildx create --name varnish-builder --driver docker-container --bootstrap 2> /dev/null || true
+docker buildx use varnish-builder
+
+docker buildx build \
+  --pull \
+  --push \
+  --build-arg VERSION=$varnishVersion \
+  .  \
+  --platform linux/arm64,linux/amd64 \
+  -t softonic/varnish:$varnishVersion \
+  -t softonic/varnish:latest
